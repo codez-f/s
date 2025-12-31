@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>New Year 2026</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: rgb(20, 19, 19);
+    text-align: center;
+    overflow: hidden;
+    transition: background 5s linear;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hidden { display: none; }
+
+button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #ff5c8d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+}
+
+.cursive {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 32px;
+}
+
+.heart {
+    font-size: 90px;
+    animation: beat 1s infinite;
+    cursor: pointer;
+}
+
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+.rain {
+    position: absolute;
+    top: -40px;
+    font-size: 28px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(110vh); }
+}
+
+.envelope {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    margin: auto;
+}
+
+.end-text {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 26px;
+}
+
+.typewriter {
+    font-size: 18px;
+    white-space: pre-line;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="song" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" id="step1">
+    <h2>Hi 👋 How are you?</h2>
+    <button onclick="nextStep(2)">I'm Good 😊</button>
+</div>
+
+<div class="container hidden" id="step2">
+    <h2>Your name please 💫</h2>
+    <input id="nameInput">
+    <br><br>
+    <button onclick="showName()">Continue</button>
+    <p class="cursive" id="nameDisplay"></p>
+</div>
+
+<div class="container hidden" id="step3">
+    <p>Please tap the heart with respect ❤️</p>
+    <div class="heart" onclick="showMagic()">❤️</div>
+</div>
+
+<div class="container hidden" id="step4">
+    <div class="envelope">
+        <p>
+            You are someone who spreads kindness, warmth,  
+            and positive vibes.  
+            May your heart always stay peaceful  
+            and your smile never fade. 🌸  
+        </p>
+        <b>From Yash</b>
+    </div>
+    <br>
+    <button onclick="nextStep(5)">New Year Wish 🎆</button>
+</div>
+
+<div class="container hidden" id="step5">
+    <h2>🎉 Happy New Year 2026 🎉</h2>
+    <div class="typewriter" id="nyMessage"></div>
+    <br>
+    <button onclick="nextStep(6)">Last Message ✨</button>
+</div>
+
+<div class="container hidden" id="step6">
+    <div class="end-text">
+        At the end of the day, everything’s going to be all right.<br><br>
+        And in my words…<br><br>
+        Hindi filmon ki tarah life mein bhi,<br>
+        Akhir mein sab kuch theek hi ho jata hai.<br><br>
+        Aur agar theek na ho,<br>
+        Toh woh the end nahi…<br><br>
+        Picture abhi baaki hai mere dost.
+    </div>
+</div>
+
+<script>
+// 🌈 Background Auto Change
+const colors = [
+  "linear-gradient(45deg,#ff9a9e,#fad0c4)",
+  "linear-gradient(45deg,#a18cd1,#fbc2eb)",
+  "linear-gradient(45deg,#fad0c4,#ffd1ff)",
+  "linear-gradient(45deg,#89f7fe,#66a6ff)",
+  "linear-gradient(45deg,#fbc8d4,#9795f0)"
+];
+let index = 0;
+setInterval(() => {
+    document.body.style.background = colors[index];
+    index = (index + 1) % colors.length;
+}, 5000);
+
+function nextStep(step) {
+    document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+    document.getElementById('step' + step).classList.remove('hidden');
+
+    if (step === 5) startTyping();
+}
+
+function showName() {
+    let name = document.getElementById("nameInput").value;
+    if (!name) return;
+    document.getElementById("nameDisplay").innerText = name;
+    nextStep(3);
+}
+
+function showMagic() {
+    nextStep(4);
+    document.getElementById("song").play();
+    rain("🍫");
+    rain("🌹");
+}
+
+function rain(symbol) {
+    for (let i = 0; i < 25; i++) {
+        let drop = document.createElement("div");
+        drop.className = "rain";
+        drop.innerText = symbol;
+        drop.style.left = Math.random() * 100 + "vw";
+        drop.style.animationDuration = (2 + Math.random() * 3) + "s";
+        document.body.appendChild(drop);
+        setTimeout(() => drop.remove(), 5000);
+    }
+}
+
+// ✨ Typewriter Message with Song
+const message = `May this New Year bring you peace,
+soft smiles, calm nights,
+and dreams that slowly come true.
+
+Stay kind.
+Stay happy.
+You matter. 💖`;
+
+
+function startTyping() {
+    let i = 0;
+    const box = document.getElementById("nyMessage");
+    box.innerText = "";
+    const interval = setInterval(() => {
+        box.innerText += message.charAt(i);
+        i++;
+        if (i >= message.length) clearInterval(interval);
+    }, 70);
+}
+</script>
+
+</body>
+</html>
